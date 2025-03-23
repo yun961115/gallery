@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>尹云茹 - 作品集</title>
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <style>
+    :root {
+      --background: #f5f5e9;
+      --text-primary: #4a3f35;
+      --text-secondary: #7d6b5a;
+      --card-bg: rgba(255, 248, 225, 0.9); /* 調整為帶透明度的淺米色 */
+      --accent: #d4a373;
+      --accent-hover: #e8c39e;
+      --shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: url('https://images.pexels.com/photos/15542926/pexels-photo-15542926.png?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2') no-repeat center center fixed;
+      background-size: cover;
+      color: var(--text-primary);
+      line-height: 1.6;
+    }
+
+    .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+
+    /* Profile Section */
+    .profile {
+      padding: 3rem;
+      background: var(--card-bg);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 2rem;
+    }
+    .profile-img {
+      width: 250px;
+      height: 250px;
+      border-radius: 20px;
+      object-fit: cover;
+      border: 5px solid var(--accent);
+      flex-shrink: 0;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+    .profile-img:hover {
+      transform: scale(1.1); /* 改為放大效果 */
+      box-shadow: 0 10px 30px rgba(212, 163, 115, 0.3);
+    }
+    .profile-content { flex: 1; }
+    .profile-content h1 {
+      font-size: 2.5rem;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+    }
+    .profile-content .title {
+      font-size: 1.3rem;
+      color: var(--text-secondary);
+      font-style: italic;
+      margin-bottom: 1rem;
+    }
+    .profile-content p {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      line-height: 1.8;
+      margin-bottom: 2rem;
+      max-width: 700px;
+    }
+
+    /* Tools Section */
+    .tools-section {
+      padding: 2rem;
+      background: var(--card-bg);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      margin-bottom: 2rem;
+    }
+    .tools-section h2 {
+      font-size: 2rem;
+      color: var(--text-primary);
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+    .tools {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.2rem;
+      justify-content: center;
+    }
+    .tool-card {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      padding: 0.8rem 1.2rem;
+      background: rgba(249, 232, 201, 0.9); /* 工具卡片透明度 */
+      border-radius: 10px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .tool-card:hover {
+      transform: scale(1.1) rotate(3deg);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+    .tool-icon { width: 36px; height: 36px; }
+
+    /* Gallery Section */
+    .gallery { padding: 2rem; }
+    .gallery h2 {
+      font-size: 2rem;
+      color: #fff; /* 修改字體顏色為白色 */
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+    .gallery-filter { display: flex; justify-content: center; gap: 1rem; margin-bottom: 2rem; }
+    .gallery-filter button {
+      padding: 0.6rem 1.2rem;
+      border: none;
+      background: rgba(249, 232, 201, 0.9);
+      color: var(--text-primary);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .gallery-filter button:hover, .gallery-filter button.active {
+      background: var(--accent);
+      color: #fff;
+      transform: scale(1.05);
+    }
+    .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+    .gallery-item {
+      background: var(--card-bg);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+    .gallery-item:hover {
+      transform: translateY(-10px) scale(1.03);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+    }
+    .gallery-item img { width: 100%; height: 220px; object-fit: cover; }
+    .gallery-title { padding: 1rem; text-align: center; font-size: 1.2rem; color: var(--text-primary); }
+
+    /* Modal */
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      z-index: 100;
+    }
+    .modal.active { opacity: 1; pointer-events: auto; }
+    .modal-content {
+      background: var(--card-bg);
+      padding: 2rem;
+      border-radius: 16px;
+      max-width: 1000px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: var(--shadow);
+      position: relative;
+      display: flex;
+      gap: 2rem;
+      align-items: flex-start;
+      transform: scale(0.95);
+      transition: transform 0.3s ease;
+    }
+    .modal.active .modal-content { transform: scale(1); }
+    .modal-img {
+      max-width: 50%;
+      border-radius: 12px;
+      object-fit: cover;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      transition: max-width 0.3s ease;
+    }
+    .modal-img.horizontal {
+      max-width: 60%;
+    }
+    .modal-text { flex: 1; }
+    .modal-text h3 { font-size: 1.8rem; color: var(--accent); margin-bottom: 1rem; }
+    .modal-text p { color: var(--text-secondary); font-size: 1rem; line-height: 1.8; white-space: pre-wrap; }
+    .close-modal {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.2rem;
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+    .close-modal:hover {
+      transform: scale(1.2) rotate(90deg);
+      background: var(--accent-hover);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .profile { flex-direction: column; padding: 2rem; text-align: center; }
+      .profile-img { width: 180px; height: 180px; }
+      .tools-section, .gallery { padding: 1rem; }
+      .modal-content { flex-direction: column; padding: 1.5rem; }
+      .modal-img, .modal-img.horizontal { max-width: 100%; margin-bottom: 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <section class="profile">
+      <img src="https://i.imgur.com/bb010Ys.jpeg" alt="尹云茹" class="profile-img">
+      <div class="profile-content">
+        <h1>尹云茹</h1>
+        <p class="title">平面設計 & 學生</p>
+        <p>我就讀明德學校廣告設計科，對設計超有熱情，特別是視覺傳達和品牌形象。我希望用設計來傳遞訊息、創造價值，讓作品能打動人。在學期間，我熟悉 Photoshop、Illustrator 等設計軟體，也懂排版、色彩應用和行銷策略。平時喜歡觀察不同設計風格，從日常生活找靈感，拓展視野。我也參加過校內外比賽，累積實戰經驗，挑戰自己。除了專業能力，我也重視團隊合作，當過班級幹部，學會協調、分工和在壓力下保持冷靜。我認為設計不只是創意，更是解決問題的方式，所以喜歡與不同領域的人合作，學習新觀點。未來希望深化設計能力、了解市場趨勢，讓作品不只好看，還能真正符合需求。期待在課堂學到更多，透過實作不斷進步，為未來設計之路打好基礎！</p>
+      </div>
+    </section>
+
+    <section class="tools-section">
+      <h2>我擅長的工具</h2>
+      <div class="tools">
+        <div class="tool-card"><img src="https://i.imgur.com/4E7iEGW.png" alt="Photoshop" class="tool-icon">Photoshop</div>
+        <div class="tool-card"><img src="https://i.imgur.com/BB4bWQ7.png" alt="Illustrator" class="tool-icon">Illustrator</div>
+        <div class="tool-card"><img src="https://i.imgur.com/v8bQMv0.png" alt="InDesign" class="tool-icon">InDesign</div>
+      </div>
+    </section>
+
+    <section class="gallery">
+      <h2>我的作品</h2>
+      <div class="gallery-filter" id="galleryFilter">
+        <button class="active" data-category="全部">全部</button>
+        <button data-category="Illustrator">Illustrator</button>
+        <button data-category="Photoshop">Photoshop</button>
+        <button data-category="手繪">手繪</button>
+        <button data-category="實作">實作</button>
+      </div>
+      <div class="gallery-grid" id="galleryGrid"></div>
+    </section>
+
+    <div id="modal" class="modal">
+      <div class="modal-content">
+        <img id="modalImg" class="modal-img">
+        <div class="modal-text">
+          <h3 id="modalTitle"></h3>
+          <p id="modalDescription"></p>
+        </div>
+        <button class="close-modal" id="closeModal">✕</button>
+      </div>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
